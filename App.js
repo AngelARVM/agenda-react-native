@@ -24,10 +24,18 @@ export default function App() {
     })
   }
 
+  const handleDelete = (id) => {
+    console.log('here')
+    const newAgenda = agenda.filter(contact => contact.id !== id)
+    setAgenda(newAgenda)
+  }
 
   const handleClick = () => {
     if(validations()){
-      setAgenda([...agenda, inputs])
+      setAgenda([...agenda, {
+        ...inputs,
+        id: Math.random().toFixed(12) * (10**12)
+      }])
       setInputs(initialState)
     }
   }
@@ -61,6 +69,7 @@ export default function App() {
           onChangeText={value => handleChange("url", value)}
         />
       </View>
+      
       <Button
         title="Agendar"
         onPress={() => handleClick()}
@@ -72,7 +81,7 @@ export default function App() {
             nombre={contacto.nombre}
             numero={contacto.numero}
             imgUrl={contacto.url}  
-            
+            onPress={() => handleDelete(contacto.id)}
           />
         )
       }
